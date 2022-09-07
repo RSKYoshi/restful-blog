@@ -15,16 +15,16 @@ public class HelloController {
         return "Hello from Spring!";
     }
 
-//    @GetMapping("/hello/{name}")
-//    @ResponseBody
-//    public String sayHello(@PathVariable String name) {
-//        return "Hello, " + name + "!";
-//    }
+    @GetMapping("/hello/{name}")
+    @ResponseBody
+    public String sayHello(@PathVariable String name) {
+        return "Hello, " + name + "!";
+    }
 
-//    @GetMapping("/increment/{number}")
-//    @ResponseBody
-//    public String addOne(@PathVariable int number) {
-//        return number + " plus one is " + (number + 1) + "!";
-//    }
+    @GetMapping("/increment/{number}")
+    @ResponseBody
+    public String addOne(@PathVariable int number) {
+        return number + " plus one is " + (number + 1) + "!";
+    }
 
 }
