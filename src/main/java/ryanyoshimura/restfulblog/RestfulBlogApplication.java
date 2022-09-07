@@ -9,5 +9,4 @@ public class RestfulBlogApplication {
     public static void main(String[] args) {
         SpringApplication.run(RestfulBlogApplication.class, args);
     }
-
 }
