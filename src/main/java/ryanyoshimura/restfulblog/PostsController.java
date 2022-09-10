@@ -1,53 +1,87 @@
 package ryanyoshimura.restfulblog;
+
+//import ryanyoshimura.restfulblog.data.Post;
+
 import data.Post;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
 
 @RestController
-@RequestMapping(value = "/api/posts", headers = "Accept=application/json")
+@RequestMapping(value = "/api/posts", produces = "application/json")
 public class PostsController {
-    private ArrayList<Post> posts = new ArrayList<>();
+    private List<Post> posts = new ArrayList<>();
+    private long nextId = 1;
 
-    @GetMapping
-    private ArrayList<Post> fetchAll() {
-        // TODO: 9/7/22
-        //arraylist of posts\
-//        blogPosts.add(new Post(1L,"cooking","Today, I am going to show y'all how to cook turkey, using chicken"));
-//        blogPosts.add(new Post(2L,"weather",        "How about that sky toady? Talk about blue"));
-//        blogPosts.add(new Post(3L,"sup","Up dog everyone....."));
-//        return array lists of posts
+    @GetMapping("")
+//    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public List<Post> fetchPosts() {
+        System.out.println("Hey I made a change!");
         return posts;
     }
 
-    @GetMapping("{id}")
-    public Post getById(@PathVariable Long id){
-//        return new Post(1L,"cooking","Today, I am going to show y'all how to cook turkey, using chicken");
-        for(Post post:posts){
-            if(Objects.equals(post.getId(), id)){
+    @GetMapping("/{id}")
+    public Post fetchPostById(@PathVariable long id) {
+        // search through the list of posts
+        // and return the post that matches the given id
+        Post post = findPostById(id);
+        if(post == null) {
+            // what to do if we don't find it
+            throw new RuntimeException("I don't know what I am doing");
+        }
+        // we found the post so just return it
+        return post;
+    }
+
+    private Post findPostById(long id) {
+        for (Post post: posts) {
+            if(post.getId() == id) {
                 return post;
             }
         }
-        throw new RuntimeException("error");
+        // didn't find it so do something
+        return null;
     }
-    @PostMapping
-    private void createPost( @RequestBody Post newPost){
+
+    @PostMapping("")
+    public void createPost(@RequestBody Post newPost) {
 //        System.out.println(newPost);
+        // assign  nextId to the new post
+        newPost.setId(nextId);
+        nextId++;
         posts.add(newPost);
     }
-    @PutMapping("{id}")
-    private void updatePost(@PathVariable Long id, @RequestBody Post post){
-        posts.set(Math.toIntExact(id), post);
+
+    @DeleteMapping("/{id}")
+    public void deletePostById(@PathVariable long id) {
+        // search through the list of posts
+        // and delete the post that matches the given id
+        Post post = findPostById(id);
+        if(post != null) {
+            posts.remove(post);
+            return;
+        }
+        // what to do if we don't find it
+        throw new RuntimeException("Post not found");
     }
-    @DeleteMapping("{id}")
-    private void deletePost(@PathVariable Long id){
-        //e equals new e
-        posts.removeIf(e -> e.getId().equals(id));
+
+    @PutMapping("/{id}")
+    public void updatePost(@RequestBody Post updatedPost, @PathVariable long id) {
+        // find the post to update in the posts list
+
+        Post post = findPostById(id);
+        if(post == null) {
+            System.out.println("Post not found");
+        } else {
+            if(updatedPost.getTitle() != null) {
+                post.setTitle(updatedPost.getTitle());
+            }
+            if(updatedPost.getContent() != null) {
+                post.setContent(updatedPost.getContent());
+            }
+            return;
+        }
+        throw new RuntimeException("Post not found");
     }
 }
-
-
-
