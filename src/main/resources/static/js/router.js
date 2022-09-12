@@ -7,8 +7,9 @@ import Login from "./views/Login.js";
 import LoginEvent from "./auth.js";
 import Register from "./views/Register.js"
 import {RegisterEvent} from "./views/Register.js";
-// import Delete
-// import Delete
+// import Delete, {DeleteEvent} from "./views/Delete.js";
+// import DeleteIndex from "./views/Delete.js";
+
 
 /**
  * Returns the route object for a specific route based on the given URI
@@ -63,7 +64,16 @@ export default function router(URI) {
             state: {},
             uri: location.pathname,
             title: 'Loading...',
-        }
+        },
+        // '/delete': {
+        //     returnView: DeleteIndex,
+        //     state: {
+        //         posts: '/posts/delete'
+        //     },
+        //     uri: '/delete',
+        //     title: 'Delete-Posts',
+        //     viewEvent: DeleteEvent
+        // }
     };
 
     return routes[URI];

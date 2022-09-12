@@ -10,21 +10,14 @@ export default function PostIndex(props) {
             <div>
                 ${props.posts.map(post => `<h3>${post.title}</h3>`).join('')}   
             </div>
-            
             <h3>Add a post</h3>
-            <form action="" method="post">
-            
-                <label for="title">Title</label>
+            <form>
+                <label for="title">Title</label><br>
+                <input id="title" name="title" type="text" placeholder="Enter title">
                 <br>
-                <input id="title" required name="title" type="title" placeholder="Enter title"></input>
-                <p class="input-hint">"Can not be blank"</p>
-                
-                <label for="content">Content</label>
-                <br>
-                <textarea id="content" name="content" rows="10" cols="50" placeholder="Enter content" required></textarea>
-                <br>
-                <input type="submit"></input>
-                
+                <label for="content">Content</label><br>
+                <textarea id="content" name="content" rows="10" cols="50" placeholder="Enter content"></textarea>
+                <button id="addPost" name="addPost">Add Post</button>
             </form>
         </main>
     `;
