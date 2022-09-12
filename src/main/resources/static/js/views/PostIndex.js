@@ -58,7 +58,7 @@ export function postSetup() {
     // addPostHandler();
     setupEditHandlers();
     setupSaveHandler();
-    // deletePostHandler setup
+    setupDeleteHandlers();
 }
 
 
@@ -172,5 +172,33 @@ function setupSaveHandler(postId) {
                 CreateView("/posts");
             })
     });
+}
+
+function setupDeleteHandlers() {
+    // target all delete buttons
+    const deleteButtons = document.querySelectorAll(".deletePost");
+    // add click handler to all delete buttons
+    for (let i = 0; i < deleteButtons.length; i++) {
+        deleteButtons[i].addEventListener("click", function(event) {
+
+            // get the post id of the delete button
+            const postId = this.getAttribute("data-id");
+
+            deletePost(postId);
+        });
+    }
+}
+
+function deletePost(postId) {
+    const request = {
+        method: "DELETE",
+        headers: {"Content-Type": "application/json"},
+    }
+    const url = "http://localhost:8080/api/posts/" + postId;
+    fetch(url, request)
+        .then(function(response) {
+            // TODO: check the response code
+            CreateView("/posts");
+        })
 }
 
