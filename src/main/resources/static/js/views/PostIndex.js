@@ -2,10 +2,10 @@ import CreateView from "../createView.js";
 
 let posts;
 
-
 export default function PostIndex(props) {
     const postsHTML = generatePostsHTML(props.posts);
-    posts=props.posts;
+    // save this for loading edits later
+    posts = props.posts;
 
     return `
         <header>
@@ -13,10 +13,10 @@ export default function PostIndex(props) {
         </header>
         <main>
               <h3>Lists of posts</h3>
-              <div>
+            <div>
                 ${postsHTML}   
             </div>
-           
+            
             <h3>Add a post</h3>
             <form>
                 <label for="title">Title</label><br>
@@ -24,8 +24,10 @@ export default function PostIndex(props) {
                 <br>
                 <label for="content">Content</label><br>
                 <textarea id="content" name="content" rows="10" cols="50" placeholder="Enter content"></textarea>
-                <button data-id="0" id="savePost" name="savePost">Save Post</button>
+                <br>
+                <button data-id="0" id="savePost" name="savePost" class="button btn-primary">Save Post</button>
             </form>
+            
         </main>
     `;
 }
@@ -37,6 +39,7 @@ function generatePostsHTML(posts) {
         <tr>
             <th scope="col">Title</th>
             <th scope="col">Content</th>
+            <th scope="col">Author</th>
         </tr>
         </thead>
         <tbody>
@@ -46,22 +49,23 @@ function generatePostsHTML(posts) {
         postsHTML += `<tr>
             <td>${post.title}</td>
             <td>${post.content}</td>
-            <td><button data-id=${post.id} class="editPost">Edit</button></td>
-            <td><button data-id=${post.id} class="deletePost">Delete</button></td>
+            <td>${post.author.userName}</td>
+            <td><button data-id=${post.id} class="button btn-primary editPost">Edit</button></td>
+            <td><button data-id=${post.id} class="button btn-danger deletePost">Delete</button></td>
             </tr>`;
     }
     postsHTML += `</tbody></table>`;
     return postsHTML;
 }
 
+
+
+
 export function postSetup() {
-    // addPostHandler();
-    setupEditHandlers();
     setupSaveHandler();
+    setupEditHandlers();
     setupDeleteHandlers();
 }
-
-
 
 function setupEditHandlers() {
     // target all delete buttons
@@ -108,71 +112,9 @@ function fetchPostById(postId) {
 }
 
 
-function addPostHandler() {
-    const addButton = document.querySelector("#savePost");
-    addButton.addEventListener("click", function(event) {
-        const titleField = document.querySelector("#title");
-        const contentField = document.querySelector("#content");
 
-        let newPost = {
-            title: titleField.value,
-            content: contentField.value
-        }
 
-        let request = {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(newPost)
-        }
 
-        fetch("http://localhost:8080/api/posts", request)
-            .then(response => {
-                console.log(response.status);
-                CreateView("/posts");
-            })
-    });
-}
-
-function setupSaveHandler(postId) {
-    const saveButton = document.querySelector("#savePost");
-    saveButton.addEventListener("click", function(event) {
-
-        // TODO: refactor later to a separate function for hygiene
-
-        // TODO: check the data-id for the save button
-        const postId = parseInt(this.getAttribute("data-id"));
-
-        // get the title and content for the new/updated post
-        const titleField = document.querySelector("#title");
-        const contentField = document.querySelector("#content");
-
-        // make the new/updated post object
-        const post = {
-            title: titleField.value,
-            content: contentField.value
-        }
-
-        // make the request
-        const request = {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(post)
-        }
-        let url = "http://localhost:8080/api/posts";
-
-        // if we are updating a post, change the request and the url
-        if(postId > 0) {
-            request.method = "PUT";
-            url += `/${postId}`;
-        }
-
-        fetch(url, request)
-            .then(function(response) {
-                // TODO: check the status code
-                CreateView("/posts");
-            })
-    });
-}
 
 function setupDeleteHandlers() {
     // target all delete buttons
@@ -194,11 +136,64 @@ function deletePost(postId) {
         method: "DELETE",
         headers: {"Content-Type": "application/json"},
     }
-    const url = "http://localhost:8080/api/posts/" + postId;
+    const url = POST_API_BASE_URL + `/${postId}`;
     fetch(url, request)
         .then(function(response) {
-            // TODO: check the response code
+            if(response.status !== 200) {
+                console.log("fetch returned bad status code: " + response.status);
+                console.log(response.statusText);
+                return;
+            }
             CreateView("/posts");
         })
 }
 
+
+
+
+
+
+
+function setupSaveHandler() {
+    const saveButton = document.querySelector("#savePost");
+    saveButton.addEventListener("click", function(event) {
+        const postId = parseInt(this.getAttribute("data-id"));
+        savePost(postId);
+    });
+}
+
+function savePost(postId) {
+    // get the title and content for the new/updated post
+    const titleField = document.querySelector("#title");
+    const contentField = document.querySelector("#content");
+
+    // make the new/updated post object
+    const post = {
+        title: titleField.value,
+        content: contentField.value
+    }
+
+    // make the request
+    const request = {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(post)
+    }
+    let url = POST_API_BASE_URL;
+
+    // if we are updating a post, change the request and the url
+    if(postId > 0) {
+        request.method = "PUT";
+        url += `/${postId}`;
+    }
+
+    fetch(url, request)
+        .then(function(response) {
+            if(response.status !== 200) {
+                console.log("fetch returned bad status code: " + response.status);
+                console.log(response.statusText);
+                return;
+            }
+            CreateView("/posts");
+        })
+}

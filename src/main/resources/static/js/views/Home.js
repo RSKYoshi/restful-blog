@@ -9,6 +9,7 @@ export default function Home(props) {
                 <p>
                     This is the home page text.
                 </p>    
+                <button>View profile</button>
             </div>
         </main>
     `;

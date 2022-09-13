@@ -3,6 +3,7 @@ package ryanyoshimura.restfulblog;
 //import ryanyoshimura.restfulblog.data.Post;
 
 import data.Post;
+import data.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -17,7 +18,6 @@ public class PostsController {
     @GetMapping("")
 //    @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<Post> fetchPosts() {
-        System.out.println("Hey I made a change!");
         return posts;
     }
 
@@ -30,6 +30,7 @@ public class PostsController {
             // what to do if we don't find it
             throw new RuntimeException("I don't know what I am doing");
         }
+
         // we found the post so just return it
         return post;
     }
@@ -49,7 +50,16 @@ public class PostsController {
 //        System.out.println(newPost);
         // assign  nextId to the new post
         newPost.setId(nextId);
+
+        // use a fake author for the post
+        User fakeAuthor = new User();
+        fakeAuthor.setId(99);
+        fakeAuthor.setUserName("fake author");
+        fakeAuthor.setEmail("fakeauthor@stuff.com");
+        newPost.setAuthor(fakeAuthor);
+
         nextId++;
+
         posts.add(newPost);
     }
 

@@ -1,10 +1,9 @@
-
-
 import CreateView from "../createView.js"
+
 export default function Register(props) {
     return `
     <!DOCTYPE html>
-        <html lang="ENG">
+        <html>
             <head>
                 <meta charset="UTF-8"/>
                 <title>Register</title>
@@ -25,27 +24,34 @@ export default function Register(props) {
         </html>
 `;
 }
+
 export function RegisterEvent(){
     const registerButton = document.querySelector("#register-btn");
     registerButton.addEventListener("click", function(event) {
+
         const usernameField = document.querySelector("#username");
         const emailField = document.querySelector("#email");
         const passwordField = document.querySelector("#password");
+
         let newUser = {
             userName: usernameField.value,
             email: emailField.value,
             password: passwordField.value
         }
+
         // console.log(newUser);
+
         let request = {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(newUser)
         }
+
         fetch(USER_API_BASE_URL + "/create", request)
             .then(response => {
                 console.log(response.status);
                 CreateView("/");
             })
+
     })
 }
