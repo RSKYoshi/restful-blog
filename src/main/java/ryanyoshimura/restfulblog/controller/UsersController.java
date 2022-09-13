@@ -1,24 +1,39 @@
-package ryanyoshimura.restfulblog;
+package ryanyoshimura.restfulblog.controller;
 
-//import ryanyoshimura.restfulblog.data.User;
-//import docrob.venusrestblog.data.UserRole;
-import data.User;
-import data.UserRole;
+
+import ryanyoshimura.restfulblog.data.Post;
+import ryanyoshimura.restfulblog.data.User;
+import ryanyoshimura.restfulblog.data.UserRole;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/users", produces = "application/json")
 public class UsersController {
-    private final List<User> users = new ArrayList<>(List.of(new User(1, "docrob", "docrob@docrob.com", "12345", LocalDate.now(), UserRole.ADMIN, new ArrayList<>())));
+    private final List<User> users = new ArrayList<>();
+
     private long nextId = 2;
+
+    @PostConstruct
+    public void init() {
+        User me = new User(1, "docrob", "docrob@docrob.com", "12345", LocalDate.now(), UserRole.ADMIN, new ArrayList<>());
+        users.add(me);
+
+        Post myPost = new Post(100L, "doc post 1", "post 1 from doc", null, null);
+        me.getPosts().add(myPost);
+
+        myPost = new Post(101L, "doc post 2", "lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem ", null, null);
+        me.getPosts().add(myPost);
+    }
 
     @GetMapping("")
     public List<User> fetchUsers() {

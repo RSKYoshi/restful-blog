@@ -1,4 +1,4 @@
-package ryanyoshimura.restfulblog;
+package ryanyoshimura.restfulblog.controller;
 
 
 import org.springframework.stereotype.Controller;

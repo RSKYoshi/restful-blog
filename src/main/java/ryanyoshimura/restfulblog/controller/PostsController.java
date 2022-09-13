@@ -1,14 +1,12 @@
-package ryanyoshimura.restfulblog;
+package ryanyoshimura.restfulblog.controller;
 
-//import ryanyoshimura.restfulblog.data.Post;
-
-import data.Post;
-import data.User;
+import ryanyoshimura.restfulblog.data.Category;
+import ryanyoshimura.restfulblog.data.Post;
+import ryanyoshimura.restfulblog.data.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
 @RestController
 @RequestMapping(value = "/api/posts", produces = "application/json")
 public class PostsController {
@@ -57,6 +55,13 @@ public class PostsController {
         fakeAuthor.setUserName("fake author");
         fakeAuthor.setEmail("fakeauthor@stuff.com");
         newPost.setAuthor(fakeAuthor);
+
+        // make some fake categories and throw them in the new post
+        Category cat1 = new Category(1L, "bunnies", null);
+        Category cat2 = new Category(2L, "margaritas", null);
+        newPost.setCategories(new ArrayList<>());
+        newPost.getCategories().add(cat1);
+        newPost.getCategories().add(cat2);
 
         nextId++;
 
