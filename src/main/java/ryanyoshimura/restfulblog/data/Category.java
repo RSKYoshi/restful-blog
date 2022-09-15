@@ -14,24 +14,26 @@ import java.util.Collection;
 @ToString
 @Entity
 @Table(name="categories")
-
 public class Category {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String name;
 
     @ManyToMany(
             fetch = FetchType.LAZY,
             cascade = {CascadeType.DETACH, CascadeType.REFRESH},
-            targetEntity = Category.class)
+            targetEntity = Post.class)
     @JoinTable(
             name="post_category",
-            joinColumns = {@JoinColumn(name = "post_id", nullable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn(name="category_id", nullable = false, updatable = false)},
+            joinColumns = {@JoinColumn(name = "category_id", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name="post_id", nullable = false, updatable = false)},
             foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
             inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT)
     )
-    @JsonIgnoreProperties("posts")
+    @JsonIgnoreProperties("categories")
     private Collection<Post> posts;
 }

@@ -77,6 +77,7 @@ public class PostsController {
     public void updatePost(@RequestBody Post updatedPost, @PathVariable long id) {
         // find the post to update in the posts list
         //in case id is not in req body (updatedpost) set it with the path variable id
+        updatedPost.setId(id);
         postsRepository.save(updatedPost);
 //        Post post = findPostById(id);
 //        if(post == null) {

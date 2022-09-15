@@ -1,4 +1,8 @@
 package ryanyoshimura.restfulblog.repository;
 
-public interface CategoriesRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import ryanyoshimura.restfulblog.data.Category;
+
+public interface CategoriesRepository extends JpaRepository<Category, Long> {
+
 }

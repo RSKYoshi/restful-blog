@@ -1,6 +1,5 @@
 package ryanyoshimura.restfulblog.controller;
 
-
 import lombok.AllArgsConstructor;
 import ryanyoshimura.restfulblog.data.User;
 import org.springframework.http.HttpStatus;
@@ -13,13 +12,14 @@ import java.util.List;
 import java.util.Optional;
 
 
+
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = "/api/users", produces = "application/json")
+@CrossOrigin(origins = "*")
 public class UsersController {
 
     private UsersRepository usersRepository;
-
 
 //    @PostConstruct
 //    public void init() {
@@ -168,7 +168,6 @@ public class UsersController {
         if(newPassword.length() < 3) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "new pw length must be at least 3 characters");
         }
-
         user.setPassword(newPassword);
         usersRepository.save(user);
     }
