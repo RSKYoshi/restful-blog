@@ -5,4 +5,5 @@ import ryanyoshimura.restfulblog.data.Category;
 
 public interface CategoriesRepository extends JpaRepository<Category, Long> {
 
+    Category findByName(String categoryName);
 }

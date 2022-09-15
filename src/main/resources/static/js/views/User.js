@@ -31,16 +31,16 @@ export default function prepareUserHTML(props) {
         
         <hr>
         ${userPostHTML}
-        
     `;
 }
 
-function createPostHTML(user) {
+function createPostHTML(me) {
     let html = `
         <table class="table">
         <thead>
         <tr>
             <th scope="col">Title</th>
+            <th scope="col">Category</th>
             <th scope="col">Content</th>
         </tr>
         </thead>
@@ -48,10 +48,11 @@ function createPostHTML(user) {
     `;
 
     // add a row to the table for each user post
-    for (let i = 0; i < user.posts.length; i++) {
-        const post = user.posts[i];
+    for (let i = 0; i < me.posts.length; i++) {
+        const post = me.posts[i];
         html += `<tr>
             <td>${post.title}</td>
+            <td>${post.category}</td>
             <td>${post.content}</td>
             </tr>`;
     }
@@ -60,13 +61,13 @@ function createPostHTML(user) {
     html += `
         </tbody>
         </table>`;
-
     return html;
 }
 
 export function prepareUserJS() {
     doTogglePasswordHandler();
     doSavePasswordHandler();
+    // console.log(user.posts.length);
 }
 
 function doSavePasswordHandler() {
@@ -76,7 +77,6 @@ function doSavePasswordHandler() {
         const oldPasswordField = document.querySelector('#oldpassword');
         const newPasswordField = document.querySelector('#newpassword');
         const confirmPasswordField = document.querySelector('#confirmpassword');
-
         const oldPassword = oldPasswordField.value;
         const newPassword = newPasswordField.value;
         const confirmPassword = confirmPasswordField.value;
