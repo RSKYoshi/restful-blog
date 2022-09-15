@@ -1,5 +1,6 @@
 package ryanyoshimura.restfulblog.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Entity()
+@Entity
 @Table(name="users")
 public class User {
 
@@ -43,7 +44,8 @@ public class User {
     @Column
     private UserRole role;
 
-    @Transient
+    @OneToMany(mappedBy = "author")
+    @JsonIgnoreProperties("author")
     private Collection<Post> posts;
 
 //    @NotNull

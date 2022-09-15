@@ -46,6 +46,20 @@ function generatePostsHTML(posts) {
     `;
     for (let i = 0; i < posts.length; i++) {
         const post = posts[i];
+
+        let categories = '';
+        if(post.categories) {
+            for (let j = 0; j < post.categories.length; j++) {
+                if (categories !== "") {
+                    categories += ", ";
+                }
+                categories += post.categories[j].name;
+            }
+        }
+        let authorName = "";
+        if(post.author) {
+            authorName = post.author.name;
+        }
         postsHTML += `<tr>
             <td>${post.title}</td>
             <td>${post.content}</td>

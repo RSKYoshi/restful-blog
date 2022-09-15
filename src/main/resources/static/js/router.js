@@ -9,6 +9,7 @@ import Register from "./views/Register.js"
 import {RegisterEvent} from "./views/Register.js";
 import prepareUserHTML, {prepareUserJS} from "./views/User.js";
 
+
 /**
  * Returns the route object for a specific route based on the given URI
  * @param URI

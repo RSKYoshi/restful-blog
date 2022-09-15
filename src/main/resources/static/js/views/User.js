@@ -96,7 +96,7 @@ function doSavePasswordHandler() {
 function doTogglePasswordHandler() {
     const button = document.querySelector("#toggleShowPassword");
     button.addEventListener("click", function(event) {
-        // grab a reference to confirmpassword
+        // grab a reference to confirm password
         const oldPassword = document.querySelector("#oldpassword");
         const newPassword = document.querySelector("#newpassword");
         const confirmPassword = document.querySelector("#confirmpassword");
