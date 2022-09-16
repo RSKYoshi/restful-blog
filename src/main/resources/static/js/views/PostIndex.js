@@ -19,6 +19,16 @@ export default function PostIndex(props) {
             
             <h3>Add a post</h3>
             <form>
+            
+                <label for="category">Category:</label><br>
+                <select name="category" id="category">
+                  //how do i pull categories here from the database?
+                <option value="custom">Custom</option>  
+                <option value="custom">Custom</option>
+                <option value="custom">Custom</option>
+                </select> 
+                <br>
+                
                 <label for="title">Title</label><br>
                 <input id="title" name="title" type="text" placeholder="Enter title">
                 <br>
@@ -28,6 +38,7 @@ export default function PostIndex(props) {
                 <br>
                 
                 <button data-id="0" id="savePost" name="savePost" class="button btn-primary">Save Post</button>
+                
             </form>
             
         </main>
