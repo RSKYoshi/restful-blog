@@ -16,14 +16,17 @@ export default function PostIndex(props) {
             <div>
                 ${postsHTML}   
             </div>
+            
             <h3>Add a post</h3>
             <form>
                 <label for="title">Title</label><br>
                 <input id="title" name="title" type="text" placeholder="Enter title">
                 <br>
+                
                 <label for="content">Content</label><br>
                 <textarea id="content" name="content" rows="10" cols="50" placeholder="Enter content"></textarea>
                 <br>
+                
                 <button data-id="0" id="savePost" name="savePost" class="button btn-primary">Save Post</button>
             </form>
             
@@ -58,7 +61,7 @@ function generatePostsHTML(posts) {
         }
         let authorName = "";
         if(post.author) {
-            authorName = post.author.name;
+            authorName = post.author.userName;
         }
         postsHTML += `<tr>
             <td>${post.title}</td>
@@ -72,6 +75,8 @@ function generatePostsHTML(posts) {
     postsHTML += `</tbody></table>`;
     return postsHTML;
 }
+
+
 
 
 export function postSetup() {
@@ -124,11 +129,6 @@ function fetchPostById(postId) {
     return false;
 }
 
-
-
-
-
-
 function setupDeleteHandlers() {
     // target all delete buttons
     const deleteButtons = document.querySelectorAll(".deletePost");
@@ -160,12 +160,6 @@ function deletePost(postId) {
             CreateView("/posts");
         })
 }
-
-
-
-
-
-
 
 function setupSaveHandler() {
     const saveButton = document.querySelector("#savePost");
