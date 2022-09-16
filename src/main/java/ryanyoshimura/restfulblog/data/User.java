@@ -6,10 +6,9 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Collection;
-
-import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -19,12 +18,11 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name="users")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false, unique = true, length=100)
+    @Column(nullable = false, unique = true, length = 100)
     private String userName;
 
     @Email
@@ -36,7 +34,7 @@ public class User {
     @Column(nullable = false, length = 100)
     private String password;
 
-    @Column(nullable = false)
+    @Column()
     private LocalDate createdAt;
 
     @NotNull
@@ -47,9 +45,5 @@ public class User {
     @OneToMany(mappedBy = "author")
     @JsonIgnoreProperties("author")
     private Collection<Post> posts;
-
-//    @NotNull
-//    @Enumerated(EnumType.STRING) // passes the string value "ADMIN" to Hibernate instead of the integer index
-//    private Role role = Role.ADMIN;
 
 }

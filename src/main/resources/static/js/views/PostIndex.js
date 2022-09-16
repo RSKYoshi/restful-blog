@@ -16,7 +16,6 @@ export default function PostIndex(props) {
             <div>
                 ${postsHTML}   
             </div>
-            
             <h3>Add a post</h3>
             <form>
                 <label for="title">Title</label><br>
@@ -73,7 +72,6 @@ function generatePostsHTML(posts) {
     postsHTML += `</tbody></table>`;
     return postsHTML;
 }
-
 
 
 export function postSetup() {

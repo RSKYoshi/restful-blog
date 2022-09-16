@@ -24,8 +24,6 @@ public class Post {
     @Column(nullable = false, length = 1024)
     private String content;
 
-
-
     @ManyToOne
     @JsonIgnoreProperties({"posts", "password"})
     private User author;
@@ -43,6 +41,5 @@ public class Post {
     )
     @JsonIgnoreProperties("posts")
     private Collection<Category> categories;
-
 }
 

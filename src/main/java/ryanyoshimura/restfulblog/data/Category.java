@@ -1,6 +1,5 @@
 package ryanyoshimura.restfulblog.data;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 

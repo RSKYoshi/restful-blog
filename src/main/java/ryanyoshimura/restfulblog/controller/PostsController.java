@@ -1,24 +1,29 @@
 package ryanyoshimura.restfulblog.controller;
-
 import ryanyoshimura.restfulblog.data.Category;
 import ryanyoshimura.restfulblog.data.Post;
+
 import ryanyoshimura.restfulblog.data.User;
-import org.springframework.web.bind.annotation.*;
+import ryanyoshimura.restfulblog.misc.FieldHelper;
+import ryanyoshimura.restfulblog.repository.CategoriesRepository;
 import ryanyoshimura.restfulblog.repository.PostsRepository;
+import ryanyoshimura.restfulblog.repository.UsersRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping(value = "/api/posts", produces = "application/json")
 public class PostsController {
-
     private PostsRepository postsRepository;
-
-    public PostsController(PostsRepository postsRepository) {
-        this.postsRepository = postsRepository;
-    }
+    private UsersRepository usersRepository;
+    private CategoriesRepository categoriesRepository;
 
     @GetMapping("")
     public List<Post> fetchPosts() {
@@ -27,28 +32,21 @@ public class PostsController {
 
     @GetMapping("/{id}")
     public Optional<Post> fetchPostById(@PathVariable long id) {
-        // search through the list of posts
-        // and return the post that matches the given id
-//        Post post = findPostById(id);
-//        if(post == null) {
-//            // what to do if we don't find it
-//            throw new RuntimeException("I don't know what I am doing");
-//        }
-//        // we found the post so just return it
         return postsRepository.findById(id);
     }
 
-
     @PostMapping("")
     public void createPost(@RequestBody Post newPost) {
-//        System.out.println(newPost);
-        // assign  nextId to the new post
+
         // use a fake author for the post
-//        User fakeAuthor = new User();
-//        fakeAuthor.setId(99);
-//        fakeAuthor.setUserName("fake author");
-//        fakeAuthor.setEmail("fakeauthor@stuff.com");
-//        newPost.setAuthor(fakeAuthor);
+        User author = usersRepository.findById(1L).get();
+        newPost.setAuthor(author);
+
+        Category cat1 = categoriesRepository.findById(1L).get();
+        Category cat2 = categoriesRepository.findById(2L).get();
+        newPost.setCategories(new ArrayList<>());
+        newPost.getCategories().add(cat1);
+        newPost.getCategories().add(cat2);
 //
 //        // make some fake categories and throw them in the new post
 //        Category cat1 = new Category(1L, "bunnies", null);
@@ -56,29 +54,34 @@ public class PostsController {
 //        newPost.setCategories(new ArrayList<>());
 //        newPost.getCategories().add(cat1);
 //        newPost.getCategories().add(cat2);
+
         postsRepository.save(newPost);
     }
 
     @DeleteMapping("/{id}")
     public void deletePostById(@PathVariable long id) {
-        // search through the list of posts
-        // and delete the post that matches the given id
-//        Post post = findPostById(id);
-//        if(post != null) {
-//            posts.remove(post);
-//            return;
-//        }
-        // what to do if we don't find it
         postsRepository.deleteById(id);
+        // what to do if we don't find it
 //        throw new RuntimeException("Post not found");
     }
 
     @PutMapping("/{id}")
     public void updatePost(@RequestBody Post updatedPost, @PathVariable long id) {
-        // find the post to update in the posts list
-        //in case id is not in req body (updatedpost) set it with the path variable id
+        // in case id is not in the request body (i.e., updatedPost), set it
+        // with the path variable id
         updatedPost.setId(id);
-        postsRepository.save(updatedPost);
+
+        Optional<Post> originalPost = postsRepository.findById(id);
+        if(originalPost.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Post " + id + " not found");
+        }
+        // copy any new field values FROM updatedPost TO originalPost
+        BeanUtils.copyProperties(updatedPost, originalPost.get(), FieldHelper.getNullPropertyNames(updatedPost));
+
+        postsRepository.save(originalPost.get());
+
+//        // find the post to update in the posts list
+//
 //        Post post = findPostById(id);
 //        if(post == null) {
 //            System.out.println("Post not found");

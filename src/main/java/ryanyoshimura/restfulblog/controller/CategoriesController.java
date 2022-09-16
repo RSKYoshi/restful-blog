@@ -1,5 +1,4 @@
 package ryanyoshimura.restfulblog.controller;
-
 import ryanyoshimura.restfulblog.data.Category;
 import ryanyoshimura.restfulblog.repository.CategoriesRepository;
 import lombok.AllArgsConstructor;
@@ -18,7 +17,7 @@ public class CategoriesController {
     private CategoriesRepository categoriesRepository;
 
     @GetMapping("")
-    private List<Category> fetchPostsByCategory(@RequestParam String categoryName) {
+    private List<Category> fetchAllCategories(@RequestParam String categoryName) {
         if(categoryName != null & categoryName.length() > 0) {
             Category cat = categoriesRepository.findByName(categoryName);
             if(cat == null) {
@@ -29,4 +28,3 @@ public class CategoriesController {
         return categoriesRepository.findAll();
     }
 }
-
