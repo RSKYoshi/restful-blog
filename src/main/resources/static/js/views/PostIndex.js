@@ -98,6 +98,7 @@ export function postSetup() {
     setupSaveHandler();
     setupEditHandlers();
     setupDeleteHandlers();
+
 }
 
 function setupEditHandlers() {

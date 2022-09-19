@@ -53,6 +53,7 @@ export default function router(URI) {
             },
             uri: '/posts',
             title: 'All Posts',
+            backgroundColor: "#FF0000",
             viewEvent: postSetup
         },
         '/about': {
@@ -60,6 +61,7 @@ export default function router(URI) {
             state: {},
             uri: '/about',
             title: 'About',
+            backgroundColor: "#00FF00"
         },
         '/error': {
             returnView: Error404,
