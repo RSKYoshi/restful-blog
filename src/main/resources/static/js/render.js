@@ -9,6 +9,12 @@ export default function render(props, route) {
     const app = document.querySelector('#app');
     document.title = `REST Blog - ${route.title}`;
     app.innerHTML = `${Navbar(null)} ${route.returnView(props)}`;
+
+    if(route.uri===/about){
+        this.backgroundImage
+    }
+
+
     if (route.viewEvent){
         route.viewEvent();
     }
