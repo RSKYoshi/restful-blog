@@ -76,10 +76,10 @@ function doSavePasswordHandler() {
         // grab the 3 password field values
         const oldPasswordField = document.querySelector('#oldpassword');
         const newPasswordField = document.querySelector('#newpassword');
-        const confirmPasswordField = document.querySelector('#confirmpassword');
+        // const confirmPasswordField = document.querySelector('#confirmpassword');
         const oldPassword = oldPasswordField.value;
         const newPassword = newPasswordField.value;
-        const confirmPassword = confirmPasswordField.value;
+        // const confirmPassword = confirmPasswordField.value;
 
         const request = {
             method: "PUT",

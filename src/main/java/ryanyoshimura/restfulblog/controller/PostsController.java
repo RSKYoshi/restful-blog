@@ -1,4 +1,5 @@
 package ryanyoshimura.restfulblog.controller;
+import ryanyoshimura.restfulblog.Service.EmailService;
 import ryanyoshimura.restfulblog.data.Category;
 import ryanyoshimura.restfulblog.data.Post;
 
@@ -20,6 +21,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping(value = "/api/posts", produces = "application/json")
 public class PostsController {
+    private EmailService emailService;
     private PostsRepository postsRepository;
     private UsersRepository usersRepository;
     private CategoriesRepository categoriesRepository;
@@ -40,9 +42,8 @@ public class PostsController {
 
     @PostMapping("")
     public void createPost(@RequestBody Post newPost) {
-
         // use docrob as author by default
-        User author = usersRepository.findById(1L).get();
+        User author = usersRepository.findById(4L).get();
         newPost.setAuthor(author);
         newPost.setCategories(new ArrayList<>());
 
@@ -55,10 +56,10 @@ public class PostsController {
 
         System.out.println(newPost);
 
-
         postsRepository.save(newPost);
-    }
 
+        emailService.prepareAndSend(newPost, "Post by Yoshi", "this works!");
+    }
     @DeleteMapping("/{id}")
     public void deletePostById(@PathVariable long id) {
         Optional<Post> optionalPost = postsRepository.findById(id);
@@ -84,4 +85,6 @@ public class PostsController {
 
         postsRepository.save(originalPost.get());
     }
+
+
 }
