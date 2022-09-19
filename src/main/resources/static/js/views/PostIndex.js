@@ -21,11 +21,11 @@ export default function PostIndex(props) {
             <form>
             
                 <label for="category">Category:</label><br>
-                <select name="category" id="category">
+                <select class="js-example-basic-multiple" name="category" id="category" multiple="multiple">
                   //how do i pull categories here from the database?
-                <option value="custom">Custom</option>  
-                <option value="custom">Custom</option>
-                <option value="custom">Custom</option>
+                    <option value="categories">${categories}</option>  
+                    <option value="custom">2</option>
+                    <option value="custom">3</option>
                 </select> 
                 <br>
                 
@@ -45,6 +45,7 @@ export default function PostIndex(props) {
     `;
 }
 
+let categories;
 function generatePostsHTML(posts) {
     let postsHTML = `
         <table class="table">

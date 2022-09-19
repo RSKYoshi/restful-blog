@@ -1,5 +1,8 @@
 package ryanyoshimura.restfulblog.controller;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import ryanyoshimura.restfulblog.data.User;
+import ryanyoshimura.restfulblog.data.UserRole;
 import ryanyoshimura.restfulblog.misc.FieldHelper;
 import ryanyoshimura.restfulblog.repository.UsersRepository;
 import lombok.AllArgsConstructor;
@@ -17,6 +20,7 @@ import java.util.Optional;
 @RequestMapping(value = "/api/users", produces = "application/json")
 public class UsersController {
     private UsersRepository usersRepository;
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("")
     public List<User> fetchUsers() {
@@ -55,6 +59,12 @@ public class UsersController {
     @PostMapping("/create")
     public void createUser(@RequestBody User newUser) {
         // don't need the below line at this point but just for kicks
+        newUser.setRole(UserRole.USER);
+
+        String plainTextPassword = newUser.getPassword();
+        String encryptedPassword = passwordEncoder.encode(plainTextPassword);
+        newUser.setPassword(encryptedPassword);
+
         newUser.setCreatedAt(LocalDate.now());
         usersRepository.save(newUser);
     }

@@ -8,18 +8,7 @@ export default function Navbar(props) {
             <a href="/register" data-link>Register</a>
             <a href="/me" data-link>User</a>
         </nav>
-<!--        <script>-->
-<!--            let aboutView = document.getElementById("aboutBody");-->
-<!--            aboutView.addEventListener("click", function (e){-->
-<!--            //toggle background here-->
-<!--            //set bg to a color-->
-<!--            //on click, set attribute of #indexBody to green-->
-<!--            // document.body.setAttribute("indexBody", "aboutBody")-->
-<!--            // document.body.getElementById("indexBody").id = "aboutBody";-->
-<!--            document.body.setAttribute("", "")-->
 
-<!--            })-->
-<!--        </script>-->
         
     `;
 
