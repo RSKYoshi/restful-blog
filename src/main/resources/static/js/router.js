@@ -8,6 +8,7 @@ import LoginEvent from "./auth.js";
 import Register from "./views/Register.js"
 import {RegisterEvent} from "./views/Register.js";
 import prepareUserHTML, {prepareUserJS} from "./views/User.js";
+import Logout, {LogoutEvent} from "./views/Logout.js"
 
 
 /**
@@ -37,6 +38,13 @@ export default function router(URI) {
             title: 'Register',
             viewEvent: RegisterEvent
         },
+        '/logout': {
+            returnView: Register,
+            state: {},
+            uri: '/logout',
+            title: 'Logout',
+            viewEvent: LogoutEvent
+        },
         '/me': {
             returnView: prepareUserHTML,
             state: {
@@ -60,8 +68,8 @@ export default function router(URI) {
             state: {},
             uri: '/about',
             title: 'About',
-            // backgroundImage: '../js/img/konami-start.gif',
-            backgroundColor: 'Green'
+            backgroundImage: '../js/img/konami-start.gif',
+            // backgroundColor: 'Green'
             // backgroundImage: ('img/office.png')
         },
         '/error': {

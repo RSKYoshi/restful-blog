@@ -1,6 +1,7 @@
 package ryanyoshimura.restfulblog.controller;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import ryanyoshimura.restfulblog.data.User;
 import ryanyoshimura.restfulblog.data.UserRole;
 import ryanyoshimura.restfulblog.misc.FieldHelper;
@@ -37,8 +38,11 @@ public class UsersController {
     }
 
     @GetMapping("/me")
-    private Optional<User> fetchMe() {
-        return usersRepository.findById(1L);
+    private Optional<User> fetchMe(OAuth2Authentication auth) {
+        String userName = auth.getName();
+        User user = usersRepository.findByUserName(userName);
+        return Optional.of(user);
+//        return usersRepository.findById(1L);
     }
 
 //    @GetMapping("/username/{userName}")

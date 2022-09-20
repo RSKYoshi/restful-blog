@@ -6,7 +6,7 @@ import Navbar from "./views/partials/Navbar.js";
  * @param route - the object containing information for the given endpoint
  */
 export default function render(props, route) {
-    console.log(route)
+    // console.log(route)
     const body = document.querySelector("body");
     if(route.backgroundColor) {
         body.setAttribute("style", `background-color: ${route.backgroundColor};`);

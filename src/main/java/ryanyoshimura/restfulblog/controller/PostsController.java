@@ -1,4 +1,6 @@
 package ryanyoshimura.restfulblog.controller;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import ryanyoshimura.restfulblog.Service.EmailService;
 import ryanyoshimura.restfulblog.data.Category;
 import ryanyoshimura.restfulblog.data.Post;
@@ -41,9 +43,17 @@ public class PostsController {
     }
 
     @PostMapping("")
-    public void createPost(@RequestBody Post newPost) {
+    @PreAuthorize("hasAuthority('USER') || hasAuthority('ADMIN')")
+    public void createPost(@RequestBody Post newPost, OAuth2Authentication auth) {
+//        if(auth == null){
+//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+//        }
+
+        String userName = auth.getName();
+        User author = usersRepository.findByUserName(userName);
+
         // use docrob as author by default
-        User author = usersRepository.findById(4L).get();
+//        User author = usersRepository.findById(4L).get();
         newPost.setAuthor(author);
         newPost.setCategories(new ArrayList<>());
 
@@ -61,6 +71,7 @@ public class PostsController {
         emailService.prepareAndSend(newPost, "Post by Yoshi", "this works!");
     }
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('USER') || hasAuthority('ADMIN')")
     public void deletePostById(@PathVariable long id) {
         Optional<Post> optionalPost = postsRepository.findById(id);
         if(optionalPost.isEmpty()) {
@@ -71,6 +82,7 @@ public class PostsController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('USER') || hasAuthority('ADMIN')")
     public void updatePost(@RequestBody Post updatedPost, @PathVariable long id) {
         Optional<Post> originalPost = postsRepository.findById(id);
         if(originalPost.isEmpty()) {

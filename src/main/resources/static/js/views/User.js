@@ -5,7 +5,7 @@ let me;
 export default function prepareUserHTML(props) {
     me = props.me;
 
-    const userPostHTML = createPostHTML(me);
+    const userPostHTML = createPostHTML();
 
     // make the user's original pw available somewhere in here
     return `
@@ -34,7 +34,7 @@ export default function prepareUserHTML(props) {
     `;
 }
 
-function createPostHTML(me) {
+function createPostHTML() {
     let html = `
         <table class="table">
         <thead>
@@ -48,15 +48,16 @@ function createPostHTML(me) {
     `;
 
     // add a row to the table for each user post
-    for (let i = 0; i < me.posts.length; i++) {
-        const post = me.posts[i];
-        html += `<tr>
+    if(me.posts) {
+        for (let i = 0; i < me.posts.length; i++) {
+            const post = me.posts[i];
+            html += `<tr>
             <td>${post.title}</td>
             <td>${post.category}</td>
             <td>${post.content}</td>
             </tr>`;
+        }
     }
-
     // finish the table
     html += `
         </tbody>
