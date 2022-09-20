@@ -44,7 +44,6 @@ export default function router(URI) {
             },
             uri: '/me',
             title: 'User Info',
-            // backgroundImage: 'js/img/konami-start.gif',
             viewEvent: prepareUserJS
         },
         '/posts': {
@@ -61,7 +60,9 @@ export default function router(URI) {
             state: {},
             uri: '/about',
             title: 'About',
-            backgroundImage: 'js/img/konami-start.gif',
+            // backgroundImage: '../js/img/konami-start.gif',
+            backgroundColor: 'Green'
+            // backgroundImage: ('img/office.png')
         },
         '/error': {
             returnView: Error404,
